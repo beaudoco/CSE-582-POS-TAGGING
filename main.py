@@ -28,4 +28,11 @@ for line in file:
         data.append(word[0])
         labels.append(word[1])
 
-# print(len(data) == len(labels))
+'''Things to do:
+    1. Split data into training and testing 
+    2. Create word embeddings using gensim Word2Vec (do we need to normalize beforehand? Ex. make all lowercase?)
+    3. Hidden Markov Model (Library: https://hmmlearn.readthedocs.io/en/latest/tutorial.html)
+    4. Logistic Regression (http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html)
+    5. Multi-Layer Perceptron (https://scikit-learn.org/stable/modules/neural_networks_supervised.html)
+    6. Testing, evaluation metrics, and improving accuracy
+'''
