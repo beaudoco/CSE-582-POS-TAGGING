@@ -1,0 +1,25 @@
+PROJECT DUE: March 12th
+
+Things to do:
+    1. Hidden Markov Model
+    2. Logistic Regression (Sheryll did)
+    3. Multi-layer Perceptron
+    4. Evaluation Metrics for each model (accuracy, etc.)
+    5. Final visuals (plots, confusion matrices)
+
+Dividing up Tasks: (Put your name next to the one you'll do, or propose a new component if you have any ideas)
+    -Word2Vec Embeddings (Sheryll)
+    -Logistic Regression (Sheryll)
+    -HMM
+    -Multi-layer Perceptron
+    -Visuals (If anyone is really good at making plots, I'd say this could be enough work for someone)
+    -If we want to experiment with different word embedding methods (Collin suggested One Hot Encoding)
+
+Timeline:
+    By March 1st: Have word embeddings, 3 models written (models not hard since just libraries), and visual functions written. 
+        Don't worry about performance/accuracies yet.
+    March 1st-8th: Work on testing and improving accuracies, generating final visuals. 
+    March 8/9th: Project done, so we can have a couple days to put together a presentation for 13th/15th
+        (Sheryll doesn't mind putting a majority of it together, since she's presenting it)
+    **Project due March 12th
+    
