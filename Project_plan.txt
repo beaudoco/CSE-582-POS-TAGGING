@@ -11,7 +11,7 @@ Dividing up Tasks: (Put your name next to the one you'll do, or propose a new co
     -Word2Vec Embeddings (Sheryll)
     -Logistic Regression (Sheryll)
     -HMM
-    -Multi-layer Perceptron
+    -Multi-layer Perceptron (Sadia)
     -Visuals (If anyone is really good at making plots, I'd say this could be enough work for someone)
     -If we want to experiment with different word embedding methods (Collin suggested One Hot Encoding)
 
