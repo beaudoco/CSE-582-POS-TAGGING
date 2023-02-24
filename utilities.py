@@ -30,6 +30,12 @@ def read_data(fpath, is_training=True):
             current_pos_tags.append(pos_tag)
     return data
 
+def create_id_mapping_from_counter(counter):
+    """Create word to integer mapping based on word counts ie most frequent word gets id 0 and so on.
+    """
+    id_mapping = dict(map(lambda t: (t[1][0], t[0]), enumerate(counter.most_common())))
+    return id_mapping
+
 
 if __name__ == '__main__':
     data = read_data('data/train.txt')

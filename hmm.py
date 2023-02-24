@@ -64,6 +64,9 @@ if __name__ == '__main__':
         unique_words.update(sentence)
         unique_pos_tags.update(pos_tags)
 
+    word_to_id = create_id_mapping_from_counter(unique_words)
+    tag_to_id = create_id_mapping_from_counter(unique_pos_tags)
+
     train_data, test_data = train_test_split(data, test_size=0.10, random_state=42)
 
 
