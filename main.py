@@ -1,5 +1,6 @@
 import os
-from utils.word_embeddings import index_based_encoding, bag_of_words_encoding
+from utils.data_readings import sentence_structured_data
+from utils.word_embeddings import index_based_encoding, bag_of_words_encoding, tf_idf_encoding
 
 print("Hello World")
 
@@ -38,10 +39,15 @@ for line in file:
     6. Testing, evaluation metrics, and improving accuracy
 '''
 
+sentences, labels = sentence_structured_data(data_dir)
 # IDX BASED ENCODING
-# data_ids = index_based_encoding(data[:10])
+# idx_encoded_data = index_based_encoding(sentences)
+# print(idx_encoded_data)
 
-bag_vector = bag_of_words_encoding(data[:10])
+# BAG OF WORD BASED ENCODING
+# bag_vector = bag_of_words_encoding(data[:10])
+# print(bag_vector)
 
-print(bag_vector)
-# print(data_ids[:10])
+# TF IDF BASED ENCODING
+# tf_idf_encoding = tf_idf_encoding(sentences)
+# print(tf_idf_encoding[0])
