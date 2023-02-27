@@ -1,4 +1,5 @@
 import os
+from utils.word_embeddings import index_based_encoding, bag_of_words_encoding
 
 print("Hello World")
 
@@ -25,7 +26,7 @@ for line in file:
         # print("NEW LINE")
         continue
     else:
-        data.append(word[0])
+        data.append(word[0].lower())
         labels.append(word[1])
 
 '''Things to do:
@@ -36,3 +37,11 @@ for line in file:
     5. Multi-Layer Perceptron (https://scikit-learn.org/stable/modules/neural_networks_supervised.html)
     6. Testing, evaluation metrics, and improving accuracy
 '''
+
+# IDX BASED ENCODING
+# data_ids = index_based_encoding(data[:10])
+
+bag_vector = bag_of_words_encoding(data[:10])
+
+print(bag_vector)
+# print(data_ids[:10])
