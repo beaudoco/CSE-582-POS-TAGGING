@@ -36,3 +36,6 @@ for line in file:
     5. Multi-Layer Perceptron (https://scikit-learn.org/stable/modules/neural_networks_supervised.html)
     6. Testing, evaluation metrics, and improving accuracy
 '''
+
+
+# Work In Progress for MLP
