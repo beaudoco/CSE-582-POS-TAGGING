@@ -39,3 +39,4 @@ for line in file:
 
 
 # Work In Progress for MLP
+# Please run multi_layer_perceptron.py for MLP classifier
