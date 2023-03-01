@@ -4,15 +4,14 @@ import math
 def index_based_encoding(sentences):
     keys = create_ids(sentences)
     key_list = list(keys)
-    max_len = len(max(sentences, key = len).split(" "))
+    max_len = len(max(sentences, key = len))
 
     idx_based_encoding = []
     for sentence in sentences:
-        split = sentence.split(" ")
         sentence_encoding = []
         for i in range(max_len):
-            if i < len(split):
-                sentence_encoding.append(key_list.index(split[i]) + 1)
+            if i < len(sentence):
+                sentence_encoding.append(key_list.index(sentence[i]) + 1)
             else:
                 sentence_encoding.append(0)
         idx_based_encoding.append(sentence_encoding)
@@ -28,10 +27,8 @@ def bag_of_words_encoding(sentences):
     # for w in sentence:
     for sentence in sentences:
         sentence_encoding = []
-        split = sentence.split(" ")
-
         for word in keys:
-            count = split.count(word)
+            count = sentence.count(word)
             sentence_encoding.append(count)
         bag_vector.append(sentence_encoding)
 
@@ -40,8 +37,7 @@ def bag_of_words_encoding(sentences):
 def create_ids(sentences):
     sentence_data = []
     for sentence in sentences:
-        split = sentence.split(" ")
-        for word in split:
+        for word in sentence:
             sentence_data.append(word)
 
     return {value for value in sentence_data}
@@ -51,10 +47,9 @@ def term_freq_dict(sentences):
     i = 0
     for sentence in sentences:
         sentence_dict = {}
-        split = sentence.split(" ")
-        for word in split:
+        for word in sentence:
             if word not in sentence_dict.keys():
-                sentence_dict[word] = split.count(word)
+                sentence_dict[word] = sentence.count(word)
         tf_dict[i] = sentence_dict
         i += 1
     return tf_dict
@@ -80,11 +75,9 @@ def tf_idf_encoding(sentences):
 
     for i in range(len(sentences)):
         sentence = sentences[i]
-        split = sentence.split(" ")
         sentence_encoding = []
-
         for word in keys:
-            if word in split:
+            if word in sentence:
                 sentence_encoding.append(tf_idf(word, i, tf_dict, keys))
             else:
                 sentence_encoding.append(0)

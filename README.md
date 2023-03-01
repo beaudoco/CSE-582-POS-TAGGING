@@ -6,3 +6,5 @@ Activate conda environment: conda activate POS
 
 Install packages:
 conda install numpy
+conda install -c conda-forge gensim
+pip install -U scikit-learn
