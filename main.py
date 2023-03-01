@@ -45,9 +45,9 @@ sentences, labels = sentence_structured_data(data_dir)
 # print(idx_encoded_data)
 
 # BAG OF WORD BASED ENCODING
-# bag_vector = bag_of_words_encoding(data[:10])
+# bag_vector = bag_of_words_encoding(sentences)
 # print(bag_vector)
 
 # TF IDF BASED ENCODING
 # tf_idf_encoding = tf_idf_encoding(sentences)
-# print(tf_idf_encoding[0])
+# print(tf_idf_encoding)

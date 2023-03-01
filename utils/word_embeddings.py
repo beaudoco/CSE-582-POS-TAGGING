@@ -18,18 +18,23 @@ def index_based_encoding(sentences):
         idx_based_encoding.append(sentence_encoding)
     return idx_based_encoding
 
-def bag_of_words_encoding(data):
+def bag_of_words_encoding(sentences):
     # NEED TO ADJUST TO ACCOUNT FOR SENTENCES 
-    words = data
-    keys = {value for value in data}
+    keys = create_ids(sentences)
+    keys = list(keys)
 
-    bag_vector = numpy.zeros(len(keys))
+    bag_vector = []
     # for sentence in sentences:
     # for w in sentence:
-    for w in words:
-        for i,word in enumerate(keys):
-            if word == w:
-                bag_vector[i] += 1
+    for sentence in sentences:
+        sentence_encoding = []
+        split = sentence.split(" ")
+
+        for word in keys:
+            count = split.count(word)
+            sentence_encoding.append(count)
+        bag_vector.append(sentence_encoding)
+
     return bag_vector
 
 def create_ids(sentences):
