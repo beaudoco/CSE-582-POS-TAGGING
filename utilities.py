@@ -34,7 +34,8 @@ def create_id_mapping_from_counter(counter):
     """Create word to integer mapping based on word counts ie most frequent word gets id 0 and so on.
     """
     id_mapping = dict(map(lambda t: (t[1][0], t[0]), enumerate(counter.most_common())))
-    return id_mapping
+    id_reverse_mapping = dict(map(lambda t: (t[0], t[1][0]), enumerate(counter.most_common())))
+    return id_mapping, id_reverse_mapping
 
 
 if __name__ == '__main__':
