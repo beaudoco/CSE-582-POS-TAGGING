@@ -1,6 +1,7 @@
 from collections import defaultdict
-from hmmlearn.hmm import MultinomialHMM
+from hmmlearn.hmm import CategoricalHMM
 from sklearn.model_selection import train_test_split
+import numpy as np
 from utilities import *
 
 
@@ -64,8 +65,8 @@ if __name__ == '__main__':
         unique_words.update(sentence)
         unique_pos_tags.update(pos_tags)
 
-    word_to_id = create_id_mapping_from_counter(unique_words)
-    tag_to_id = create_id_mapping_from_counter(unique_pos_tags)
+    word_to_id, id_to_word = create_id_mapping_from_counter(unique_words)
+    tag_to_id, id_to_tag = create_id_mapping_from_counter(unique_pos_tags)
 
     train_data, test_data = train_test_split(data, test_size=0.10, random_state=42)
 
@@ -82,9 +83,63 @@ if __name__ == '__main__':
             else:
                 missing += 1
     total = correct + incorrect + missing
-    print(correct/total)
-    print(missing / total)
+    print('Baseline model accuracy: {} Missing predictions: {}'.format(correct/total, missing / total))
 
-    # initial_tag, tag_to_word, tag_to_tag = calculate_hmm_parameters(data)
-    # print(initial_tag)
-    # print(tag_to_tag)
+    initial_tag_probs, tag_to_word, tag_to_tag = calculate_hmm_parameters(data)
+
+    num_pos_tags = len(unique_pos_tags)
+    vocab_size = len(unique_words)
+
+    initial_tag_probs_array = np.zeros((num_pos_tags,))
+    for tag, tag_id in tag_to_id.items():
+        initial_tag_probs_array[tag_id] = initial_tag_probs[tag]
+
+    tag_to_word_array = np.zeros((num_pos_tags, vocab_size))
+    for tag, tag_id in tag_to_id.items():
+        for word, word_id in word_to_id.items():
+            tag_to_word_array[tag_id][word_id] = tag_to_word[tag][word]
+
+    tag_to_tag_array = np.zeros((num_pos_tags, num_pos_tags))
+    for tag1, tag1_id in tag_to_id.items():
+        for tag2, tag2_id in tag_to_id.items():
+            tag_to_tag_array[tag1_id][tag2_id] = tag_to_tag[tag1][tag2]
+
+
+    # Set up the HMM model
+    # Note that we set the params and init_params to empty string.
+    # This ensures that the model is not trained when we call fit.
+    # We have to call fit as otherwise we get some NotFitted exception.
+    # It is likely that we are exploiting some undocumented feature of the library to
+    # force the model to not fit on data and use the params we provide.
+    model = CategoricalHMM(n_components=len(unique_pos_tags), params='', init_params='')
+    model.n_features = len(unique_words)
+    model.start_prob_ = initial_tag_probs_array
+    model.transmat_ = tag_to_tag_array
+    model.emissionprob_ = tag_to_word_array
+
+    # Fit the model on dummy data, I am like 99.99 pct sure this does not change the model params.
+    sentence = ["I", "met", "you", "at", "the", "blood", "bank"]
+    sentence_word_ids = np.array([word_to_id[w] for w in sentence]).reshape((-1, 1))
+    model.fit(sentence_word_ids)
+
+    predicted_pos_tag_ids = model.predict(sentence_word_ids)
+    predicted_pos_tags = [id_to_tag[tag] for tag in predicted_pos_tag_ids]
+    # Seems to get the correct POS tags
+    print(sentence)
+    print(predicted_pos_tags)
+
+    # Get accuracy on validation split.
+    correct, incorrect = 0, 0
+    for sentence, pos_tags in test_data:
+        sentence_word_ids = np.array([word_to_id[w] for w in sentence]).reshape((-1, 1))
+        predicted_pos_tag_ids = model.predict(sentence_word_ids)
+        predicted_pos_tags = [id_to_tag[tag] for tag in predicted_pos_tag_ids]
+        for predicted_tag, tag in zip(predicted_pos_tags, pos_tags):
+            if predicted_tag == tag:
+                correct += 1
+            else:
+                incorrect += 1
+    total = correct + incorrect
+    print('HMM Accuracy on validation set: {}'.format(correct/total))
+
+
