@@ -18,16 +18,26 @@ def read_data(fpath, is_training=True):
             # check if it is an empty new line
             # if it is then this is the end of the current sentence.
             if len(line.strip()) == 0:
-                data.append((current_sentence.copy(), current_pos_tags.copy()))
+                if is_training:
+                    data.append((current_sentence.copy(), current_pos_tags.copy()))
+                else:
+                    data.append(current_sentence.copy())
                 current_sentence.clear()
-                current_pos_tags.clear()
+                if is_training:
+                    current_pos_tags.clear()
                 continue
-            word, pos_tag, _ = line.split()
+            if is_training:
+                word, pos_tag, _ = line.split()
+            else:
+                word = line
+
             # Strip whitespaces just in case.
             word = word.strip()
-            pos_tag = pos_tag.strip()
+            if is_training:
+                pos_tag = pos_tag.strip()
             current_sentence.append(word)
-            current_pos_tags.append(pos_tag)
+            if is_training:
+                current_pos_tags.append(pos_tag)
     return data
 
 def create_id_mapping_from_counter(counter, add_unk=False):
