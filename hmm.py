@@ -8,6 +8,7 @@ import seaborn as sns
 import pandas as pd
 import random
 from utilities import *
+from labeled_data_output import *
 
 
 def calculate_baseline_parameters(data):
@@ -76,9 +77,11 @@ if __name__ == '__main__':
     word_to_id, id_to_word = create_id_mapping_from_counter(unique_words)
     tag_to_id, id_to_tag = create_id_mapping_from_counter(unique_pos_tags)
 
+    """
     for i in range(len(unique_pos_tags)):
         tag = id_to_tag[i]
         print('Tag: {} P: {}'.format(tag, unique_pos_tags[tag] / unique_pos_tags.total()))
+    """
 
 
     train_data, test_data = train_test_split(data, test_size=0.1, random_state=4)
@@ -101,7 +104,7 @@ if __name__ == '__main__':
                     correct += 1
                 else:
                     incorrect += 1
-    print(unknown_tag_counter)
+    # print(unknown_tag_counter)
     print('Baseline model accuracy: {} Missing predictions: {}'.format(correct/total, missing / total))
 
     train_words = Counter()
@@ -188,5 +191,14 @@ if __name__ == '__main__':
         accuracy = (1e-3 + correct_per_tag[tag]) / (2e-3 + correct_per_tag[tag] + incorrect_per_tag[tag])
         print('Tag: {} Acc: {} Count: {} Incorrect Count: {} UNK: {}'.format(tag, accuracy, correct_per_tag[tag] + incorrect_per_tag[tag], incorrect_per_tag[tag], (1e-3 + unknown_per_tag[tag]) / (2e-3 + correct_per_tag[tag] + incorrect_per_tag[tag])))
 
+    test_data = read_data('data/test.txt', is_training=False)
+    words, predictions = [], []
+    for sentence in test_data:
+        sentence_word_ids = np.array([word_to_id[w] for w in sentence]).reshape((-1, 1))
+        log_prob, predicted_pos_tag_ids = model.decode(sentence_word_ids, algorithm='viterbi')
+        predicted_pos_tags = [id_to_tag[tag] for tag in predicted_pos_tag_ids]
+        words.extend(sentence)
+        predictions.extend(predicted_pos_tags)
 
+    test_predicted_list(words, predictions)
 
