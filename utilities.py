@@ -1,4 +1,4 @@
-from collections import Counter
+from collections import Counter, defaultdict
 
 
 # TODO: Handle test data file.
@@ -30,11 +30,23 @@ def read_data(fpath, is_training=True):
             current_pos_tags.append(pos_tag)
     return data
 
-def create_id_mapping_from_counter(counter):
+def create_id_mapping_from_counter(counter, add_unk=False):
     """Create word to integer mapping based on word counts ie most frequent word gets id 0 and so on.
     """
-    id_mapping = dict(map(lambda t: (t[1][0], t[0]), enumerate(counter.most_common())))
-    id_reverse_mapping = dict(map(lambda t: (t[0], t[1][0]), enumerate(counter.most_common())))
+    if add_unk:
+        id_mapping = defaultdict(int)
+    else:
+        id_mapping = dict()
+    id_reverse_mapping = dict()
+    if add_unk:
+        id_reverse_mapping[0] = 'UNK'
+        idx = 1
+    else:
+        idx = 0
+    for item, count in counter.most_common():
+        id_mapping[item] = idx
+        id_reverse_mapping[idx] = item
+        idx += 1
     return id_mapping, id_reverse_mapping
 
 
