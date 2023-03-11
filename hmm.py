@@ -192,13 +192,15 @@ if __name__ == '__main__':
         print('Tag: {} Acc: {} Count: {} Incorrect Count: {} UNK: {}'.format(tag, accuracy, correct_per_tag[tag] + incorrect_per_tag[tag], incorrect_per_tag[tag], (1e-3 + unknown_per_tag[tag]) / (2e-3 + correct_per_tag[tag] + incorrect_per_tag[tag])))
 
     test_data = read_data('data/test.txt', is_training=False)
-    words, predictions = [], []
+    predictions = []
     for sentence in test_data:
         sentence_word_ids = np.array([word_to_id[w] for w in sentence]).reshape((-1, 1))
         log_prob, predicted_pos_tag_ids = model.decode(sentence_word_ids, algorithm='viterbi')
         predicted_pos_tags = [id_to_tag[tag] for tag in predicted_pos_tag_ids]
-        words.extend(sentence)
-        predictions.extend(predicted_pos_tags)
+        predictions.append(predicted_pos_tags)
 
-    test_predicted_list(words, predictions)
-
+    with open('predictions/neuralnets.test.txt', 'w') as f:
+        for sentence, prediction in zip(test_data, predictions):
+            for word, predicted_tag in zip(sentence, prediction):
+                f.write('{} {}\n'.format(word, predicted_tag))
+            f.write('\n')
