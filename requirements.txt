@@ -1,2 +1,5 @@
 scikit-learn==1.2.1
 hmmlearn==0.2.8
+matplotlib==3.7.1
+seaborn==0.12.2
+gensim==4.3.1

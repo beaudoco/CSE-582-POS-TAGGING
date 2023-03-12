@@ -7,9 +7,94 @@ Under your section, please describe your portion of the project (about 1-2 parag
   - Explanation of results
   
 Collin:
+For my portion of the project I used the following packages: numpy, nltk, matplotlib, sklearn, keras, gensim.
+
+For word embeddings I tried index based embedding, bag of words embedding, TF-IDF embedding and a feature engineering embedding.
+For my feature engineering embedding I included the number of terms in the sentence, the term, if it was the first or last word, 
+if it was capitalized or all lowercase, or if it contained punctuation. I also included the first letter and last 3 letters of the
+word and the previous/next word in the feature space.
+
+For my model I chose the MLP network. To try to slowly decrease the size of the input to the desired dimensionality that is equivalent
+to the number of POS classes. To introduce non-linearity between layers of my MLP I used the ReLU activation function. I also introduced
+a .2 dropout in hopes of preventing overlearning. 
+
+I experimented with multiple embedding types, with the size of the dataset, the features used for embedding, the batch size and hidden neurons.
+For the size of the dataset I found that when performing a training using the entirety of the original dataset it would achieve roughly a 91%
+testing accuracy, however when I reduced this to be just 10% of the original dataset I was still able to achieve 88-90% testing accuracy.
+When experimenting with the embedding types I found building the feature engineering space by hand was less sparse than BOW, and I could
+build a pseudo-context concept as opposed to index embedding. The batch size had the most interesting result to me, when varying it from 2 to 128 to
+256 I found the extremely small batch size to offer me the quickest saturation to a high accuracy.
 
 Moosa:
+I have included some explanations of the work that I have done. I will add more explanantions later.
+
+I included hmmlearn, sklearn, matplotlib, seaborn, numpy, pandas.
+
+I have not checked the word embeddings yet.
+
+So far it's only the basic HMM. For HMM, we have initial state probability, state to state transition probability
+and state to word probability parameters that we can learn from the training data. In the code I have used the
+term tag for state since POS tag serves as state for our problem. From now on I will use the term tag to mean
+state.
+
+An issue that I faced was that for some rare words, some of the tag to word probabilities would be zero. So I added
+some dummy counts, like the virtual data points for MAP approach in naive bayes.
+
+I had three dummy counts parameters for initial tag probability, tag to tag transition probability and tag to
+word transition probability. After tuning these 3 parameters, especially for the tag to word, I got about 91pc
+accuracy. The baseline model that predicts the most frequent tag for a word gets about 92pc. So the results
+are not very impressive.
+
+**TODO**
+It is expected that many rare words do not appear in the training data, or appear once or twice. For these words,
+the tag to word probabilites will be either unavailable or not be very accurate. We can try to predict these
+tag to word probabilites using word embeddings. Or we can try some other ideas to handle these unknown/rare words.
+My guess is to get better performance, our best bet is to deal with this issue.
+
+TLDR; we got 91pc validation set accuracy with HMM, baseline gets 92pc. Need to deal with unknown/rare words to get
+better results.
 
 Sadia:
 
+For POS tagging with Multi Layer Perceptrons I have used sklearn, numpy libraries. For classification I imported 
+'MLPClassifier' from sklearn.
+
+As a part of word embeddings I extracted some common features first to use them with each corpus. For example:
+'is_first', 'is_last', 'prev_word' etc to enhance the feature space. Then separated the word with feature dictionary 
+from the label and finally used 'DictVectorizer'in the pipeline with classifier to convert feature-value mappings 
+to vectors which is available in sklearn library.
+
+I considered 70%-30% as train-validation splitting proportion. I also tried with 80%-20% splitting , which resulted 
+in similar performance since in any way I have been using a part(first 10K/ first 20K words etc.) for training purpose.
+
+I was facing issues with loading the whole dataset after vectorizing it in dictionary format. So could not 
+use the whole given dataset for training the MLP classifier.I took first 10K corpus for training and found 
+a descent accuracy on validation dataset. Increasing the number of training words results in around 2% 
+improved validation accuracy in expense of longer training time. 
+
+As parameters I tried to play with the number of hidden layers, the initial learning rate of the model and 
+proportion of training dataset. As I increase the number of hidden layers and 
+proportion of training dataset the validation accuracy improves in expense of training time. Also I tweaked 
+the initial learning rate and found setting it as 0.05 gives a decent validation accuracy. 
+
+While using hidden_layer_sizes= 20, learning_rate_init= 0.05, random_state=1, max_iter= 5 with first 10K
+training words; I got validation accuracy 91.96%. If we increase the number of training words
+then the validation accuracy improves.
+
+
+
 Simone: 
+Worked on setting up graphics (e.g., graphs) for presentation. Help with slides and setting up the final report and summary.
+
+
+
+Conclusions:
+We achieved the highest accuracy through our logistic regression model (92%), which was higher than that for the HMM (89%) or MLP (91%) models.
+We conclude that, given the current model specifications, the logistic regression model is a superior POS tagging tool to the HMM and MLP.
+Further work could expose how either of these three models could be improved via further hyperparameter tuning, or by modifiyng the training data.
+For instance, it is our belief that a more representative training set would help model performance. 
+Given the strong long-tail of word occurance in the data, with some words being very infrequent, the models performed poorly in predicting such words.
+It is also worth mentioning that higher computational resources would have aided in the achievement of better results, as this would have allowed
+to train the models on a larger corpus, ultimately increasing their performance.
+
+

@@ -1,0 +1,9 @@
+Model       Validation Accuracy
+Baseline    92.14
++ lowercase 90.59
+HMM         91.43
++ lowercase 90.47
++ glove-50  91.55 
++ glove-100 91.71
++ fasttext  91.65
+
