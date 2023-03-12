@@ -7,6 +7,23 @@ Under your section, please describe your portion of the project (about 1-2 parag
   - Explanation of results
   
 Collin:
+For my portion of the project I used the following packages: numpy, nltk, matplotlib, sklearn, keras, gensim.
+
+For word embeddings I tried index based embedding, bag of words embedding, TF-IDF embedding and a feature engineering embedding.
+For my feature engineering embedding I included the number of terms in the sentence, the term, if it was the first or last word, 
+if it was capitalized or all lowercase, or if it contained punctuation. I also included the first letter and last 3 letters of the
+word and the previous/next word in the feature space.
+
+For my model I chose the MLP network. To try to slowly decrease the size of the input to the desired dimensionality that is equivalent
+to the number of POS classes. To introduce non-linearity between layers of my MLP I used the ReLU activation function. I also introduced
+a .2 dropout in hopes of preventing overlearning. 
+
+I experimented with multiple embedding types, with the size of the dataset, the features used for embedding, the batch size and hidden neurons.
+For the size of the dataset I found that when performing a training using the entirety of the original dataset it would achieve roughly a 91%
+testing accuracy, however when I reduced this to be just 10% of the original dataset I was still able to achieve 88-90% testing accuracy.
+When experimenting with the embedding types I found building the feature engineering space by hand was less sparse than BOW, and I could
+build a pseudo-context concept as opposed to index embedding. The batch size had the most interesting result to me, when varying it from 2 to 128 to
+256 I found the extremely small batch size to offer me the quickest saturation to a high accuracy.
 
 Moosa:
 I have included some explanations of the work that I have done. I will add more explanantions later.
