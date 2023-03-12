@@ -2,7 +2,7 @@ from collections import Counter, defaultdict
 
 
 # TODO: Handle test data file.
-def read_data(fpath, is_training=True):
+def read_data(fpath, is_training=True, lowercase=False):
     """Read the data file and returns the sentences (words and pos tags)
 
     Parameters:
@@ -15,6 +15,8 @@ def read_data(fpath, is_training=True):
         current_sentence = []
         current_pos_tags = []
         for line in f:
+            if lowercase:
+                line = line.lower()
             # check if it is an empty new line
             # if it is then this is the end of the current sentence.
             if len(line.strip()) == 0:

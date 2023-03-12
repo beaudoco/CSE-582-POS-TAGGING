@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import random
+import gensim.downloader
 from utilities import *
 from labeled_data_output import *
 
@@ -65,7 +66,7 @@ def calculate_hmm_parameters(data, tag_to_id, word_to_id, num_of_tags, num_of_wo
 
 if __name__ == '__main__':
 
-    data = read_data('data/train.txt')
+    data = read_data('data/train.txt', lowercase=True)
 
     unique_words = Counter()
     unique_pos_tags = Counter()
@@ -146,6 +147,8 @@ if __name__ == '__main__':
     print(predicted_pos_tags)
 
     # Get accuracy on validation split.
+    glove_vectors = gensim.downloader.load('fasttext-wiki-news-subwords-300')
+
     correct, incorrect = 0, 0
     unknown, total = 0, 0
     correct_among_unknown = 0
@@ -153,6 +156,20 @@ if __name__ == '__main__':
     y_true, y_pred = [], []
     for sentence, pos_tags in test_data:
         sentence_word_ids = np.array([word_to_id[w] for w in sentence]).reshape((-1, 1))
+        for i in range(len(sentence_word_ids)):
+            if sentence_word_ids[i] == 0:
+                if word_to_id[sentence[i].lower()] != 0:
+                    sentence_word_ids[i] = word_to_id[sentence[i].lower()]
+                else:
+                    try:
+                        similar_words = glove_vectors.most_similar(sentence[i].lower(), topn=10000)
+                        for word, score in similar_words:
+                            if word_to_id[word] != 0:
+                                sentence_word_ids[i] = word_to_id[word]
+                                break
+                    except KeyError:
+                        pass
+
         back_translated_sentence = [id_to_word[word_to_id[w]] for w in sentence]
         total += len(sentence)
         log_prob, predicted_pos_tag_ids = model.decode(sentence_word_ids, algorithm='viterbi')
@@ -171,7 +188,7 @@ if __name__ == '__main__':
                 correct += 1
                 correct_per_tag[tag] += 1
             else:
-                if False and tag == 'NNP' and word_id != 0:
+                if True and tag == 'NNP' and word_id != 0:
                     print(sentence)
                     print(back_translated_sentence, id_to_word[word_id], tag, predicted_tag)
                 incorrect += 1
@@ -191,7 +208,7 @@ if __name__ == '__main__':
         accuracy = (1e-3 + correct_per_tag[tag]) / (2e-3 + correct_per_tag[tag] + incorrect_per_tag[tag])
         print('Tag: {} Acc: {} Count: {} Incorrect Count: {} UNK: {}'.format(tag, accuracy, correct_per_tag[tag] + incorrect_per_tag[tag], incorrect_per_tag[tag], (1e-3 + unknown_per_tag[tag]) / (2e-3 + correct_per_tag[tag] + incorrect_per_tag[tag])))
 
-    test_data = read_data('data/test.txt', is_training=False)
+    test_data = read_data('data/test.txt', is_training=False, lowercase=False)
     predictions = []
     for sentence in test_data:
         sentence_word_ids = np.array([word_to_id[w] for w in sentence]).reshape((-1, 1))
