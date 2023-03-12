@@ -95,6 +95,9 @@ Further work could expose how either of these three models could be improved via
 For instance, it is our belief that a more representative training set would help model performance. 
 Given the strong long-tail of word occurance in the data, with some words being very infrequent, the models performed poorly in predicting such words.
 It is also worth mentioning that higher computational resources would have aided in the achievement of better results, as this would have allowed
-to train the models on a larger corpus, ultimately increasing their performance.
+to train the models on a larger corpus, ultimately increasing their performance. For instance, with the MLP model increasing its complexity came 
+at a considerable cost of computational resources, so that the more complex version of a MLP could not be possible. Similarly, including a limited number
+of words in the training data was used as an approach to reduce computational expenses. With higher computational power the training data could be expanded
+and the model performance increased.
 
 
