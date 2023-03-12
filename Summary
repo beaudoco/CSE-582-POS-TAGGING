@@ -1,0 +1,42 @@
+Under your section, please describe your portion of the project (about 1-2 paragraphs). This could include:
+  - Different packages you included
+  - What you did for word embeddings
+  - How your model works
+  - What parameters you experimented with
+  - Accuracy of test data
+  - Explanation of results
+  
+Collin:
+
+Moosa:
+I have included some explanations of the work that I have done. I will add more explanantions later.
+
+I included hmmlearn, sklearn, matplotlib, seaborn, numpy, pandas.
+
+I have not checked the word embeddings yet.
+
+So far it's only the basic HMM. For HMM, we have initial state probability, state to state transition probability
+and state to word probability parameters that we can learn from the training data. In the code I have used the
+term tag for state since POS tag serves as state for our problem. From now on I will use the term tag to mean
+state.
+
+An issue that I faced was that for some rare words, some of the tag to word probabilities would be zero. So I added
+some dummy counts, like the virtual data points for MAP approach in naive bayes.
+
+I had three dummy counts parameters for initial tag probability, tag to tag transition probability and tag to
+word transition probability. After tuning these 3 parameters, especially for the tag to word, I got about 91pc
+accuracy. The baseline model that predicts the most frequent tag for a word gets about 92pc. So the results
+are not very impressive.
+
+**TODO**
+It is expected that many rare words do not appear in the training data, or appear once or twice. For these words,
+the tag to word probabilites will be either unavailable or not be very accurate. We can try to predict these
+tag to word probabilites using word embeddings. Or we can try some other ideas to handle these unknown/rare words.
+My guess is to get better performance, our best bet is to deal with this issue.
+
+TLDR; we got 91pc validation set accuracy with HMM, baseline gets 92pc. Need to deal with unknown/rare words to get
+better results.
+
+Sadia:
+
+Simone: 
