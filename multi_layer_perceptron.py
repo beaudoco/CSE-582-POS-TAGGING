@@ -63,7 +63,7 @@ X, y = transform_to_dataset(training_sentences)
 
 clf = Pipeline([
     ('vectorizer', DictVectorizer(sparse=False)),
-    ('classifier', MLPClassifier(random_state=1, max_iter=5))
+    ('classifier', MLPClassifier(hidden_layer_sizes= 20, learning_rate_init= 0.05, random_state=1, max_iter= 5))
 ])
 
 clf.fit(X[:10000], y[:10000])   # Using only the first 10K samples 
