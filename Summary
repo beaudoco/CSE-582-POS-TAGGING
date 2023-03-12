@@ -40,4 +40,17 @@ better results.
 Sadia:
 
 Simone: 
-Worked on setting up graphics (e.g., graphs) for presentation. Will help with slides and setting up the final report.
+Worked on setting up graphics (e.g., graphs) for presentation. Help with slides and setting up the final report and summary.
+
+
+
+Conclusions:
+We achieved the highest accuracy through our logistic regression model (92%), which was higher than that for the HMM (89%) or MLP (91%) models.
+We conclude that, given the current model specifications, the logistic regression model is a superior POS tagging tool to the HMM and MLP.
+Further work could expose how either of these three models could be improved via further hyperparameter tuning, or by modifiyng the training data.
+For instance, it is our belief that a more representative training set would help model performance. 
+Given the strong long-tail of word occurance in the data, with some words being very infrequent, the models performed poorly in predicting such words.
+It is also worth mentioning that higher computational resources would have aided in the achievement of better results, as this would have allowed
+to train the models on a larger corpus, ultimately increasing their performance.
+
+
