@@ -39,6 +39,33 @@ better results.
 
 Sadia:
 
+For POS tagging with Multi Layer Perceptrons I have used sklearn, numpy libraries. For classification I imported 
+'MLPClassifier' from sklearn.
+
+As a part of word embeddings I extracted some common features first to use them with each corpus. For example:
+'is_first', 'is_last', 'prev_word' etc to enhance the feature space. Then separated the word with feature dictionary 
+from the label and finally used 'DictVectorizer'in the pipeline with classifier to convert feature-value mappings 
+to vectors which is available in sklearn library.
+
+I considered 70%-30% as train-validation splitting proportion. I also tried with 80%-20% splitting , which resulted 
+in similar performance since in any way I have been using a part(first 10K/ first 20K words etc.) for training purpose.
+
+I was facing issues with loading the whole dataset after vectorizing it in dictionary format. So could not 
+use the whole given dataset for training the MLP classifier.I took first 10K corpus for training and found 
+a descent accuracy on validation dataset. Increasing the number of training words results in around 2% 
+improved validation accuracy in expense of longer training time. 
+
+As parameters I tried to play with the number of hidden layers, the initial learning rate of the model and 
+proportion of training dataset. As I increase the number of hidden layers and 
+proportion of training dataset the validation accuracy improves in expense of training time. Also I tweaked 
+the initial learning rate and found setting it as 0.05 gives a decent validation accuracy. 
+
+While using hidden_layer_sizes= 20, learning_rate_init= 0.05, random_state=1, max_iter= 5 with first 10K
+training words; I got validation accuracy 91.96%. If we increase the number of training words
+then the validation accuracy improves.
+
+
+
 Simone: 
 Worked on setting up graphics (e.g., graphs) for presentation. Help with slides and setting up the final report and summary.
 
