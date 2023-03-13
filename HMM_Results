@@ -1,11 +1,15 @@
-Model       Validation Accuracy
-Baseline    92.14
-+ lowercase 90.59
-HMM         91.43
-+ lowercase 90.47
-+ glove-50  91.55 
-+ glove-100 91.71
-+ fasttext  91.65
-- lowercase 92.51
-+ topn=1000 92.46
+Model       Validation Accuracy Comments
+Baseline    92.14               This model predicts the most frequent tag for a word, for unknown words it cannot make a prediction.
++ lowercase 90.59               Lowercasing helps reduce the number of unknown words. But it seems to hurt the baseline model. 
+HMM         91.43               Basic HMM model.
++ lowercase 90.47               Lowercasing to minimize unknown words, hurts performance same as the baseline model.
++ glove-50  91.55               Replace an unknown word with the most similar know word according to glove-50 model. 
++ glove-100 91.71               Similar to last but with the glove-100 model. Glove models are lowercased, so we used lowercased data for these two.
++ fasttext  91.65               Similar to last but with faststext model.
+- lowercase 92.51               Fasttext supports cased words, so removing lowercasing we get a bit better performance, beating the baseline.
++ topn=1000 92.46               So far we searched for known words among the top 10000 similar words. Reducing it to 1000 doesn't help performance but it is a bit faster to run.
 
+
+Further comments:
+
+The results here are on a validation set which was randomly sampled from the training data. See line 88 of hmm.py.
