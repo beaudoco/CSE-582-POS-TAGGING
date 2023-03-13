@@ -45,14 +45,17 @@ word transition probability. After tuning these 3 parameters, especially for the
 accuracy. The baseline model that predicts the most frequent tag for a word gets about 92pc. So the results
 are not very impressive.
 
-**TODO**
 It is expected that many rare words do not appear in the training data, or appear once or twice. For these words,
 the tag to word probabilites will be either unavailable or not be very accurate. We can try to predict these
 tag to word probabilites using word embeddings. Or we can try some other ideas to handle these unknown/rare words.
 My guess is to get better performance, our best bet is to deal with this issue.
 
-TLDR; we got 91pc validation set accuracy with HMM, baseline gets 92pc. Need to deal with unknown/rare words to get
-better results.
+Got 92.5pc accuracy after handling unknown words with word embedding. Each unknown word was replaced with the most
+similar known word according to fastText word embedding. We look for a known word from the list of 10,000 most
+similar word.
+
+TLDR; we got 92.5pc validation set accuracy with HMM, baseline gets 92pc. Dealt with unknown/rare words by replacing
+with most similar known word.
 
 Sadia:
 
