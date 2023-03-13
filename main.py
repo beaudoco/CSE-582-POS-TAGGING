@@ -1,3 +1,5 @@
+#best model for our group is the logistic regression with word2vec embeddings. The code is reported below.
+
 import os
 from utils.data_readings import sentence_structured_data
 from utils.word_embeddings import index_based_encoding, bag_of_words_encoding, tf_idf_encoding
