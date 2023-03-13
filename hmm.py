@@ -66,7 +66,7 @@ def calculate_hmm_parameters(data, tag_to_id, word_to_id, num_of_tags, num_of_wo
 
 if __name__ == '__main__':
 
-    data = read_data('data/train.txt', lowercase=True)
+    data = read_data('data/train.txt', lowercase=False)
 
     unique_words = Counter()
     unique_pos_tags = Counter()
@@ -154,6 +154,7 @@ if __name__ == '__main__':
     correct_among_unknown = 0
     correct_per_tag, incorrect_per_tag, unknown_per_tag = defaultdict(int), defaultdict(int), defaultdict(int)
     y_true, y_pred = [], []
+    embedding_topn = 10000
     for sentence, pos_tags in test_data:
         sentence_word_ids = np.array([word_to_id[w] for w in sentence]).reshape((-1, 1))
         for i in range(len(sentence_word_ids)):
@@ -162,7 +163,7 @@ if __name__ == '__main__':
                     sentence_word_ids[i] = word_to_id[sentence[i].lower()]
                 else:
                     try:
-                        similar_words = glove_vectors.most_similar(sentence[i].lower(), topn=10000)
+                        similar_words = glove_vectors.most_similar(sentence[i].lower(), topn=embedding_topn)
                         for word, score in similar_words:
                             if word_to_id[word] != 0:
                                 sentence_word_ids[i] = word_to_id[word]
@@ -212,6 +213,21 @@ if __name__ == '__main__':
     predictions = []
     for sentence in test_data:
         sentence_word_ids = np.array([word_to_id[w] for w in sentence]).reshape((-1, 1))
+        for i in range(len(sentence_word_ids)):
+            if sentence_word_ids[i] == 0:
+                if word_to_id[sentence[i].lower()] != 0:
+                    sentence_word_ids[i] = word_to_id[sentence[i].lower()]
+                else:
+                    try:
+                        similar_words = glove_vectors.most_similar(sentence[i].lower(), topn=embedding_topn)
+                        for word, score in similar_words:
+                            if word_to_id[word] != 0:
+                                sentence_word_ids[i] = word_to_id[word]
+                                break
+                    except KeyError:
+                        pass
+
+
         log_prob, predicted_pos_tag_ids = model.decode(sentence_word_ids, algorithm='viterbi')
         predicted_pos_tags = [id_to_tag[tag] for tag in predicted_pos_tag_ids]
         predictions.append(predicted_pos_tags)

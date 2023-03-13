@@ -6,4 +6,6 @@ HMM         91.43
 + glove-50  91.55 
 + glove-100 91.71
 + fasttext  91.65
+- lowercase 92.51
++ topn=1000 92.46
 
