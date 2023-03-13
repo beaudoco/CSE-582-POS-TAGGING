@@ -6,8 +6,8 @@ HMM         91.43               Basic HMM model.
 + glove-50  91.55               Replace an unknown word with the most similar know word according to glove-50 model. 
 + glove-100 91.71               Similar to last but with the glove-100 model. Glove models are lowercased, so we used lowercased data for these two.
 + fasttext  91.65               Similar to last but with faststext model.
-- lowercase 92.51               Fasttext supports cased words, so removing lowercasing we get a bit better performance, beating the baseline.
-+ topn=1000 92.46               So far we searched for known words among the top 10000 similar words. Reducing it to 1000 doesn't help performance but it is a bit faster to run.
+- lowercase 92.46               Fasttext supports cased words, so removing lowercasing we get a bit better performance, beating the baseline.
++ topn=10k 92.51                So far we searched for known words among the top 10000 similar words.
 
 
 Further comments:
